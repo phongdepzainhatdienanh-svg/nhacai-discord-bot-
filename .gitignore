@@ -1,0 +1,11 @@
+# Bỏ qua thư mục thư viện tải về
+node_modules/
+
+# Bỏ qua file chứa token và biến môi trường bảo mật
+.env
+
+# Bỏ qua các file log hoặc file hệ thống tạm thời
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
