@@ -1,7 +1,6 @@
 const { Client, GatewayIntentBits, Collection, REST, Routes } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
-const config = require('./config');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 client.commands = new Collection();
@@ -23,7 +22,8 @@ for (const file of commandFiles) {
 
 client.once('ready', async () => {
     console.log(`✅ Bot đã online: ${client.user.tag}`);
-    const rest = new REST({ version: '10' }).setToken(config.token);
+    const token = process.env.DISCORD_TOKEN || require('./config').token;
+    const rest = new REST({ version: '10' }).setToken(token);
     try {
         await rest.put(Routes.applicationCommands(client.user.id), { body: commandsArray });
         console.log('✅ Đã đăng ký thành công các lệnh Slash từ module!');
@@ -39,12 +39,10 @@ client.on('interactionCreate', async (interaction) => {
     if (!command) return;
 
     try {
-        // Thực thi lệnh của bạn
         await command.execute(interaction);
     } catch (error) {
         console.error("🔥 LỖI CHI TIẾT:", error);
         
-        // Tránh lỗi treo phản hồi bằng cách kiểm tra trạng thái tương tác
         if (interaction.deferred || interaction.replied) {
             await interaction.editReply({ content: `❌ Đã xảy ra lỗi khi thực thi lệnh này!`, embeds: [], components: [] }).catch(() => {});
         } else {
@@ -53,7 +51,11 @@ client.on('interactionCreate', async (interaction) => {
     }
 });
 
-client.login(config.token);
+// Đăng nhập bot
+const token = process.env.DISCORD_TOKEN || require('./config').token;
+client.login(token);
+
+// Khởi Chạy Web Server Express phục vụ cho Render 24/7
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
