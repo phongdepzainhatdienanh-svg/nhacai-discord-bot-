@@ -54,3 +54,14 @@ client.on('interactionCreate', async (interaction) => {
 });
 
 client.login(config.token);
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+  res.send('Bot Discord đang chạy 24/7!');
+});
+
+app.listen(PORT, () => {
+  console.log(`Web server đang chạy trên cổng ${PORT}`);
+});
