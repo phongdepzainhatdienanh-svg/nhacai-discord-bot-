@@ -29,7 +29,7 @@ module.exports = {
         }
 
         if (currentBalance < betAmount) {
-            return interaction.reply({ content: `❌ Bạn không đủ tiền để cược! Số dư hiện tại: **${currentBalance.toLocaleString()} xu**.`, ephemeral: true });
+            return interaction.reply({ content: `❌ Bạn không đủ tiền để cược! Số dư hiện tại: **${currentBalance.toLocaleString()} VNĐ**.`, ephemeral: true });
         }
 
         // Trừ tiền cược trước khi lắc
@@ -76,7 +76,7 @@ module.exports = {
         }
 
         const diceEmojis = { 1: '⚀', 2: '⚁', 3: '⚂', 4: '⚃', 5: '⚄', 6: '⚅' };
-        const diceString = `${diceEmojis[dice[0]]} - ${diceEmojis[dice[1]]} - ${diceEmojis[dice[2]]}`;
+        const diceString = `${diceEmojis[dice[0]]} ${diceEmojis[dice[1]]} ${diceEmojis[dice[2]]}`;
 
         let resultText = '';
         let color = '#ED4245';
@@ -84,10 +84,10 @@ module.exports = {
 
         if (actualResult === userChoice) {
             updatedBalance += betAmount * 2;
-            resultText = `🎉 **BẠN THẮNG!** Nhận được **+${betAmount.toLocaleString()} xu**`;
+            resultText = `🎉 **BẠN THẮNG!** Nhận được **+${betAmount.toLocaleString()} VNĐ**`;
             color = '#57F287';
         } else {
-            resultText = `🤖 **NHÀ CÁI ĂN!** Mất **-${betAmount.toLocaleString()} xu**`;
+            resultText = `🤖 **NHÀ CÁI ĂN!** Mất **-${betAmount.toLocaleString()} VNĐ**`;
         }
 
         db[userId] = updatedBalance;
@@ -98,9 +98,9 @@ module.exports = {
             .setTitle('🎲 KẾT QUẢ TÀI XỈU (ĐÃ MỞ BÁT)')
             .addFields(
                 { name: '👤 Bạn chọn', value: userChoice === 'tai' ? '🔴 TÀI' : '🔵 XỈU', inline: true },
-                { name: '💵 Tiền cược', value: `**${betAmount.toLocaleString()} xu**`, inline: true },
+                { name: '💵 Tiền cược', value: `**${betAmount.toLocaleString()} VNĐ**`, inline: true },
                 { name: '🎲 Xí ngầu', value: `${diceString} (Tổng: **${sum}**)`, inline: false },
-                { name: '💰 Số dư mới', value: `**${updatedBalance.toLocaleString()} xu**`, inline: false },
+                { name: '💰 Số dư mới', value: `**${updatedBalance.toLocaleString()} VNĐ**`, inline: false },
                 { name: '🏆 Trạng thái', value: resultText, inline: false }
             );
 
